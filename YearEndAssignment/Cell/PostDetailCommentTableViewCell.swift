@@ -25,13 +25,12 @@ class PostDetailCommentTableViewCell: UITableViewCell {
                 vc.handler = {
                   
                 }
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                nav.modalTransitionStyle = .coverVertical
-                PostDetailViewController().present(nav, animated: true, completion: nil)
+                
+                // push vc
+                
             }),
             UIAction(title: "댓글 삭제", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { _ in
-                print("start delete???")
+            
                 PostViewModel().deleteUserComment { error in
                     if let error = error {
                         dump(error)
@@ -94,9 +93,10 @@ class PostDetailCommentTableViewCell: UITableViewCell {
         addSubview(editDeleteButton)
         editDeleteButton.menu = menu
         editDeleteButton.showsMenuAsPrimaryAction = true
-//        editDeleteButton.isEnabled = true
+        editDeleteButton.isUserInteractionEnabled = true
+        editDeleteButton.isEnabled = true
         
-    
+
     }
     
     func setupConstraints() {
@@ -109,7 +109,7 @@ class PostDetailCommentTableViewCell: UITableViewCell {
         
         editDeleteButton.snp.makeConstraints { make in
             make.top.equalTo(usernameLabel.snp.top)
-            make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(10)
+            make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(20)
             make.size.equalTo(25)
         }
     

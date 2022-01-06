@@ -1,7 +1,7 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController {
+class PostDetailViewController: UIViewController, UITextFieldDelegate {
     
     var viewModel = PostViewModel()
     let mainView = PostDetailView()
@@ -57,15 +57,12 @@ class PostDetailViewController: UIViewController {
         editDeleteButton = UIBarButtonItem(title: "", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menu)
         navigationItem.rightBarButtonItems = [editDeleteButton]
         
-        
+        mainView.commentTextField.delegate = self
         mainView.commentTextField.addTarget(self, action: #selector(commentTextFieldClicked(_:)), for: .touchDown)
-        
-        
         
         
         mainView.tableView.refreshControl = UIRefreshControl()
         mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        
     }
     
     @objc func pullToRefresh() {
@@ -84,7 +81,8 @@ class PostDetailViewController: UIViewController {
     
     
     @objc func commentTextFieldClicked(_ textfield: UITextField) {
-        mainView.commentTextField.resignFirstResponder()
+        textfield.resignFirstResponder()
+        
         let vc = CommentWriteEditViewController()
         vc.viewModel.post = self.viewModel.post
         vc.viewModel.navTitle = "댓글 쓰기"
@@ -120,7 +118,7 @@ class PostDetailViewController: UIViewController {
 
 
 
-extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
+extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -139,6 +137,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             let username = row.user.username
             let content = row.comment
             cell.configureCell(username: username, content: content)
+            
         }
         
         return cell
