@@ -14,8 +14,7 @@ enum Endpoint {
     case deletePosts(id: Int)
     
     
-    case getComments
-    case getCommentsWithPostId(postId: Int)
+    case getComments(id: Int)
     case postComments
     case putComments(id: Int)
     case deleteComments(id: Int)
@@ -41,10 +40,8 @@ extension Endpoint {
         case .deletePosts(let id):
             return .makeEndpoint(endpoint: "/posts/\(id)")
             
-        case .getComments:
-            return .makeEndpoint(endpoint: "/comments")
-        case .getCommentsWithPostId(let postId):
-            return .makeEndpoint(endpoint: "/comments?post=\(postId)")
+        case .getComments(let id):
+            return .makeEndpoint(endpoint: "/comments?post=\(id)")
         case .postComments:
             return .makeEndpoint(endpoint: "/comments")
         case .putComments(let id):

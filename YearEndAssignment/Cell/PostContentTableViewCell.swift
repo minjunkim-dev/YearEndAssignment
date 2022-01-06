@@ -34,7 +34,6 @@ class PostContentTableViewCell: UITableViewCell {
     func setupView() {
         
         addSubview(usernameLabel)
-        usernameLabel.backgroundColor = .lightGray
         usernameLabel.numberOfLines = 1
         usernameLabel.sizeToFit()
         

@@ -44,6 +44,7 @@ class PostDetailView: UIView, ViewPresentable {
         return textField
     }()
     
+    
     let separator: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 10))
         view.backgroundColor = .lightGray
@@ -56,6 +57,9 @@ class PostDetailView: UIView, ViewPresentable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        
+        
         setupView()
         setupConstraints()
     }
@@ -79,11 +83,9 @@ class PostDetailView: UIView, ViewPresentable {
         usernameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
         usernameLabel.numberOfLines = 1
         usernameLabel.sizeToFit()
-        usernameLabel.text = "당근당근당근"
         
         profileStack.addArrangedSubview(dateLabel)
         dateLabel.sizeToFit()
-        dateLabel.text = "12/08"
         
         addSubview(profileStack)
 

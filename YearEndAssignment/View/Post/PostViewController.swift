@@ -97,19 +97,13 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
         return viewModel.heightOfRowAt
     }
 
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        return viewModel.viewForFooterInSection(tableView, viewForFooterInSection: section)
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return viewModel.heightForFooterInSection(tableView, heightForFooterInSection: section)
-//    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let row = self.viewModel.posts[indexPath.section]
         
         let vc = PostDetailViewController()
         vc.viewModel.post = row
+        vc.viewModel.posts = viewModel.posts
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

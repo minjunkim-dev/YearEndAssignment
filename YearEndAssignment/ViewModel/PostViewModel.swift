@@ -5,6 +5,10 @@ class PostViewModel {
     
     var posts: [Post] = []
     var post: Post?
+    
+    var comments: [CommentDetail] = []
+    var comment: CommentDetail?
+    
     var text: Observable<String> = Observable("")
     var navTitle: String = ""
     
@@ -81,20 +85,77 @@ class PostViewModel {
         }
     }
     
-    func getUserComment() {
+    func getUserComment(completion: @escaping (APIError?) -> Void) {
+        guard let postId = post?.id else { return }
         
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        APIService.getComment(token: token, postId: postId) { data, error in
+            if let data = data {
+                print("GET comment 성공!")
+                dump(data)
+                self.comments = data
+                completion(nil)
+            } else {
+                print("GET post 실패!")
+                dump(error)
+                completion(error)
+            }
+        }
     }
     
-    func postUserComment() {
+    func postUserComment(completion: @escaping (APIError?) -> Void) {
+        guard let postId = post?.id else { return }
         
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        print("text.value = \(text.value)")
+        APIService.postComment(token: token, comment: text.value, postId: postId) { data, error in
+            if let data = data {
+                print("GET comment 성공!")
+                dump(data)
+                self.comment = data
+                completion(nil)
+            } else {
+                print("GET post 실패!")
+                dump(error)
+                completion(error)
+            }
+        }
     }
     
-    func putUserComment() {
+    func putUserComment(completion: @escaping (APIError?) -> Void) {
+        guard let postId = post?.id else { return }
         
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        APIService.putComment(token: token, comment: text.value, postId: postId) { data, error in
+            if let data = data {
+                print("PUT comment 성공!")
+//                dump(data)
+                self.comment = data
+                completion(nil)
+            } else {
+                print("PUT post 실패!")
+                dump(error)
+                completion(error)
+            }
+        }
     }
     
-    func deleteUserComment() {
+    func deleteUserComment(completion: @escaping (APIError?) -> Void) {
+        guard let postId = post?.id else { return }
         
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        APIService.deleteComment(token: token, postId: postId) { data, error in
+            if let data = data {
+                print("DELETE comment 성공!")
+//                dump(data)
+                self.comment = data
+                completion(nil)
+            } else {
+                print("DELETE post 실패!")
+                dump(error)
+                completion(error)
+            }
+        }
     }
 }
 
