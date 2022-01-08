@@ -98,7 +98,7 @@ extension URLSession {
                     
                     let decoder = JSONDecoder()
                     let requestError = try! decoder.decode(RequestError.self, from: data)
-                    
+        
                     if let message = requestError.message.first?.messages.first?.message {
                         
                         if message == "Email is already taken." {
@@ -106,6 +106,10 @@ extension URLSession {
                             completion(nil, .duplicateEmail)
                         }
                     
+                        if message == "Please provide valid email address." {
+                            print("이메일 형식이 아님")
+                        }
+                        
                         if message == "Identifier or password invalid." {
                             print("유효하지 않은 이메일 또는 비밀번호")
                             completion(nil, .invalidIdOrPassword)

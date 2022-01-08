@@ -152,10 +152,10 @@
 		B94D6F6F277E95930071CF45 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B99A571427817D3800256C7B /* Comment.swift */,
+				B99A571227817A7200256C7B /* Post.swift */,
 				B99A56F32780209300256C7B /* RequestError.swift */,
 				B94D6F8B277EA5900071CF45 /* User.swift */,
-				B99A571227817A7200256C7B /* Post.swift */,
-				B99A571427817D3800256C7B /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

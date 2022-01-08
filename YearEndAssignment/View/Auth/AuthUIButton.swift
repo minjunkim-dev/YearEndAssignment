@@ -37,7 +37,6 @@ class AuthUIButton : UIButton {
         self.setTitleColor(.white, for: .normal)
         self.titleLabel?.textAlignment = .center
         self.cornerRadius = 10
-        
     }
     
     required init?(coder: NSCoder) {

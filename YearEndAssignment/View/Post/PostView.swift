@@ -23,7 +23,7 @@ class PostView: UIView, ViewPresentable {
         button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration.init(pointSize: UIScreen.main.bounds.width / 7, weight: UIImage.SymbolWeight.light), forImageIn: .normal)
         button.layer.cornerRadius = button.bounds.size.width / 2
 
-        button.backgroundColor = .green
+        button.backgroundColor = .systemGreen
         button.tintColor = .white
         return button
     }()

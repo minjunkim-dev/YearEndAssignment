@@ -50,24 +50,26 @@ class AuthView: UIView, ViewPresentable {
         
         addSubview(logoImageView)
         
+        
         summaryStack.addArrangedSubview(titleLabel)
         titleLabel.text = "당신 근처의 새싹농장"
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 20, weight: .heavy)
         titleLabel.numberOfLines = 1
         titleLabel.sizeToFit()
         
+        
         summaryStack.addArrangedSubview(subtitleLabel)
-        subtitleLabel.text = """
+        subtitleLabel.text =
+        """
         iOS 지식부터 바람의 나라까지
         지금 SeSAC에서 함께해보세요!
         """
         subtitleLabel.textAlignment = .center
-        subtitleLabel.textColor = .black
         subtitleLabel.font = .systemFont(ofSize: 18, weight: .medium)
         subtitleLabel.numberOfLines = 2
         subtitleLabel.sizeToFit()
+        
         
         addSubview(summaryStack)
      
@@ -81,7 +83,7 @@ class AuthView: UIView, ViewPresentable {
         signinLabel.text = "이미 계정이 있나요?"
         signinLabel.font = .systemFont(ofSize: 16, weight: .heavy)
         signinLabel.textAlignment = .center
-        signinLabel.textColor = .lightGray
+        signinLabel.textColor = .systemGray
         signinLabel.sizeToFit()
         
         
@@ -101,8 +103,7 @@ class AuthView: UIView, ViewPresentable {
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().multipliedBy(0.8)
-            make.width.equalTo(self.snp.width).multipliedBy(0.4)
-            make.height.equalTo(self.snp.width).multipliedBy(0.4)
+            make.size.equalTo(self.snp.width).multipliedBy(0.4)
         }
         
         summaryStack.snp.makeConstraints { make in

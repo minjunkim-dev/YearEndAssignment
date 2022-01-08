@@ -22,47 +22,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         /*
-         1. 로그인 한적 있는 경우
+         1. 로그인 한적 있는 경우 => 기존 정보 활용
             - 1) 기존 정보로 로그인 성공
             - 2) 기존 정보로 로그인 실패
          2. 로그인 한적 없는 경우
          */
     
+        let duration = 0.5
+        let options = UIView.AnimationOptions.transitionCrossDissolve
+        
         if let identifier = UserDefaults.standard.string(forKey: "identifier"), let password = UserDefaults.standard.string(forKey: "password") {
-           
+
             APIService.signin(identifier: identifier, password: password) { data, error in
+
+                var rootViewController: UIViewController
 
                 if let data = data {
                     print("로그인 성공!")
-//                    dump(data)
-                    
-                    /* token */
                     UserDefaults.standard.set(data.jwt, forKey: "token")
-                    
-                    let duration = 0.5
-                    let options = UIView.AnimationOptions.transitionCrossDissolve
-                    let rootViewController = PostViewController()
-                    self.window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
-                    
+
+                    rootViewController = PostViewController()
                 } else {
                     print("로그인 실패!")
                     dump(error)
-                                        
-                    let duration = 0.5
-                    let options = UIView.AnimationOptions.transitionCrossDissolve
-                    let rootViewController = AuthViewController()
-                    self.window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
+
+                    rootViewController = AuthViewController()
                 }
-                
+                self.window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
             }
-            
+
         } else {
         
-            let duration = 0.5
-            let options = UIView.AnimationOptions.transitionCrossDissolve
             let rootViewController = AuthViewController()
             self.window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
-            
         }
         
     }

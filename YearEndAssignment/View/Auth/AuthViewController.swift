@@ -13,10 +13,11 @@ class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.navigationItem.backButtonTitle = ""
+        
         mainView.signupButton.addTarget(self, action: #selector(signupButtonClicked), for: .touchUpInside)
         mainView.signinButton.addTarget(self, action: #selector(signinButtonClicked), for: .touchUpInside)
-        
-        navigationItem.backButtonTitle = ""
     }
     
     @objc func signupButtonClicked() {

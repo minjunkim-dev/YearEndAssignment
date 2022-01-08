@@ -54,7 +54,7 @@ class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         print(String(describing: type(of: self)), #function)
-        self.setLeftAlignedNavigationItemTitle(text: "새싹농장", size: 25, color: .black, weight: .heavy, margin: 20)
+        self.setLeftAlignedNavigationItemTitle(text: "새싹농장", size: 25, color: .black, weight: .heavy)
         
         
         viewModel.getUserPost { error in

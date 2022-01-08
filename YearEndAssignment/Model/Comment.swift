@@ -1,4 +1,6 @@
 
+import Foundation
+
 // MARK: - Comment
 struct Comment: Codable {
     let id: Int
@@ -13,7 +15,7 @@ struct Comment: Codable {
     }
 }
 
-// MARK: - Post
+// MARK: - CommentDetail
 struct CommentDetail: Codable {
     let id: Int
     let comment: String

@@ -16,7 +16,7 @@ class SignUpView: UIView, ViewPresentable {
     }
     
     let emailTextField = AuthUITextField()
-    let nicknameTextField = AuthUITextField()
+    let usernameTextField = AuthUITextField()
     let passwordTextField = AuthUITextField()
     let confirmPasswordTextField = AuthUITextField()
     
@@ -31,9 +31,9 @@ class SignUpView: UIView, ViewPresentable {
         emailTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
         
-        addSubview(nicknameTextField)
-        nicknameTextField.placeholder = "닉네임"
-        nicknameTextField.autocapitalizationType = .none
+        addSubview(usernameTextField)
+        usernameTextField.placeholder = "닉네임"
+        usernameTextField.autocapitalizationType = .none
         
         addSubview(passwordTextField)
         passwordTextField.placeholder = "비밀번호"
@@ -47,8 +47,9 @@ class SignUpView: UIView, ViewPresentable {
         
         addSubview(signupButton)
         signupButton.setTitle("가입하기", for: .normal)
-        signupButton.backgroundColor = .lightGray
-        signupButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .heavy)
+        signupButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
+        signupButton.backgroundColor = .systemGray3
+        signupButton.isEnabled = false
     }
     
     func setupConstraints() {
@@ -59,7 +60,7 @@ class SignUpView: UIView, ViewPresentable {
             make.height.equalTo(50)
         }
         
-        nicknameTextField.snp.makeConstraints { make in
+        usernameTextField.snp.makeConstraints { make in
             make.top.equalTo(emailTextField.snp.bottom).offset(10)
             make.centerX.equalTo(emailTextField.snp.centerX)
             make.width.equalTo(self.snp.width).multipliedBy(0.9)
@@ -67,8 +68,8 @@ class SignUpView: UIView, ViewPresentable {
         }
         
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(nicknameTextField.snp.bottom).offset(10)
-            make.centerX.equalTo(nicknameTextField.snp.centerX)
+            make.top.equalTo(usernameTextField.snp.bottom).offset(10)
+            make.centerX.equalTo(usernameTextField.snp.centerX)
             make.width.equalTo(self.snp.width).multipliedBy(0.9)
             make.height.equalTo(50)
         }

@@ -37,7 +37,8 @@ class SignInView: UIView, ViewPresentable {
         addSubview(signinButton)
         signinButton.setTitle("시작하기", for: .normal)
         signinButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
-        signinButton.backgroundColor = .lightGray
+        signinButton.backgroundColor = .systemGray3
+        signinButton.isEnabled = false
 
     }
     

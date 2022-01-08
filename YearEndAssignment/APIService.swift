@@ -6,14 +6,24 @@ enum APIError: Error {
     case noData
     case failed
     case invalidData
+    
+    
+    /* SignUp */
+    case invalidEmail
     case duplicateEmail
+    
+    
+    /* SignIn */
     case invalidIdOrPassword
+    
+    
     case oldPasswordNotMatch
 }
 
 extension APIError {
     
     var errorDescription: String? {
+        
         switch self {
         case .invalidResponse:
             return "invalidResponse"
@@ -23,13 +33,29 @@ extension APIError {
             return "failed"
         case .invalidData:
             return "invalidData"
+            
+            
+            
+            
+            
+        case .invalidEmail:
+            
+            
+            
+            
+            return "invalidEmail"
         case .duplicateEmail:
             return "duplicateEmail"
         case .invalidIdOrPassword:
             return "invalidIdOrPassword"
+            
+            
+            
+            
         case .oldPasswordNotMatch:
             return "oldPasswordNotMatch"
         }
+        
     }
 }
 
@@ -43,11 +69,11 @@ enum Method: String {
 class APIService {
     
     static func signin(identifier: String, password: String, completion: @escaping (User?, APIError?) -> Void) {
-
+        
         var request = URLRequest(url: Endpoint.signin.url)
         request.httpMethod = Method.POST.rawValue
         request.httpBody = "identifier=\(identifier)&password=\(password)".data(using: .utf8, allowLossyConversion: false)
-                
+        
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
     

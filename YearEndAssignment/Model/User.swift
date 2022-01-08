@@ -19,4 +19,3 @@ struct UserInfo: Codable {
         case updatedAt = "updated_at"
     }
 }
-

@@ -1,6 +1,8 @@
 
 import UIKit
 
+import SnapKit
+
 class SignUpViewController: UIViewController {
     
     let mainView = SignUpView()
@@ -13,28 +15,35 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "새싹농장 가입하기"
-        
         
         viewModel.email.bind { text in
             self.mainView.emailTextField.text = text
         }
-        viewModel.nickname.bind { text in
-            self.mainView.nicknameTextField.text = text
+        viewModel.username.bind { text in
+            self.mainView.usernameTextField.text = text
         }
         viewModel.password.bind { text in
             self.mainView.passwordTextField.text = text
         }
-        viewModel.confirmNewPassword.bind { text in
+        viewModel.confirmPassword.bind { text in
             self.mainView.confirmPasswordTextField.text = text
         }
+        viewModel.isEnabledSignUpButton.bind { isEnabled in
+            self.mainView.signupButton.isEnabled = isEnabled
+            if isEnabled {
+                self.mainView.signupButton.backgroundColor = .systemGreen
+            } else {
+                self.mainView.signupButton.backgroundColor = .systemGray3
+            }
+        }
+        
         
         mainView.emailTextField.addTarget(self, action: #selector(emailTextFieldDidChange(_:)), for: .editingChanged)
         mainView.emailTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         
-    
-        mainView.nicknameTextField.addTarget(self, action: #selector(nicknameTextFieldDidChange(_:)), for: .editingChanged)
-        mainView.nicknameTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+        
+        mainView.usernameTextField.addTarget(self, action: #selector(usernameTextFieldDidChange(_:)), for: .editingChanged)
+        mainView.usernameTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
         
         
         mainView.passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange(_:)), for: .editingChanged)
@@ -47,51 +56,67 @@ class SignUpViewController: UIViewController {
         
         mainView.signupButton.addTarget(self, action: #selector(signupButtonClicked), for: .touchUpInside)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
     
-    func activateSignUpButton() {
-        guard mainView.emailTextField.text != "", mainView.nicknameTextField.text != "",
-              mainView.passwordTextField.text != "", mainView.confirmPasswordTextField.text != "" else {
-                  mainView.signupButton.backgroundColor = .lightGray
-                  return
-              }
-        mainView.signupButton.backgroundColor = .systemGreen
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setCenterAlignedNavigationItemTitle(text: "새싹농장 가입하기", size: 18, color: .black, weight: .heavy)
+        
+    }
+    
+    func validateSignUpForm() {
+        
+        if mainView.emailTextField.text != "", mainView.usernameTextField.text != "",
+           mainView.passwordTextField.text != "", mainView.confirmPasswordTextField.text != "" {
+            
+            viewModel.isEnabledSignUpButton.value = true
+        }
+        else {
+            
+            viewModel.isEnabledSignUpButton.value = false
+        }
     }
     
     @objc func emailTextFieldDidChange(_ textfield: UITextField) {
         viewModel.email.value = textfield.text ?? ""
-        activateSignUpButton()
+        validateSignUpForm()
     }
     
-    @objc func nicknameTextFieldDidChange(_ textfield: UITextField) {
-        viewModel.nickname.value = textfield.text ?? ""
-        activateSignUpButton()
+    @objc func usernameTextFieldDidChange(_ textfield: UITextField) {
+        viewModel.username.value = textfield.text ?? ""
+        validateSignUpForm()
     }
     
     @objc func passwordTextFieldDidChange(_ textfield: UITextField) {
         viewModel.password.value = textfield.text ?? ""
-        activateSignUpButton()
+        validateSignUpForm()
     }
     
     @objc func confirmPasswordTextFieldDidChange(_ textfield: UITextField) {
-        activateSignUpButton()
+        viewModel.confirmPassword.value = textfield.text ?? ""
+        validateSignUpForm()
     }
     
     @objc func signupButtonClicked() {
-
+        print(#function)
+        
+        // 예외 처리: 비밀번호 불일치(클라이언트 단에서 처리)
         if mainView.passwordTextField.text != mainView.confirmPasswordTextField.text {
-            showAlert(title: "비밀번호 불일치", message: "비밀번호가 다릅니다.", okTitle: "확인", okCompletion: {
+            showAlert(title: "", message: "비밀번호가 다릅니다.\n", okTitle: "확인", okCompletion: {
                 self.mainView.passwordTextField.text = ""
                 self.mainView.confirmPasswordTextField.text = ""
-                self.activateSignUpButton()
+                self.validateSignUpForm()
             }, cancleTitle: nil, cancleCompletion: nil)
             
             return
         }
-            
+        
+        // "Please provide your password" 에러는 클라이언트 단에서 처리(버튼 비활성화)
+        
+        
         
         viewModel.postUserSignup { error in
             
@@ -99,23 +124,33 @@ class SignUpViewController: UIViewController {
                 
                 if error == APIError.duplicateEmail {
                     
-                    self.showAlert(title: "이메일 중복", message: "이미 등록된 이메일입니다.", okTitle: "확인", okCompletion: {
+                    let message = "이미 등록된 이메일입니다."
+                    self.showAlert(title: "", message: message, okTitle: "확인", okCompletion: {
                         self.mainView.emailTextField.text = ""
-                        self.activateSignUpButton()
+                        self.validateSignUpForm()
                     }, cancleTitle: nil, cancleCompletion: nil)
                 }
+                
+                else if error == APIError.invalidEmail {
+                    
+                    let message = "유효한 이메일 형식이 아닙니다."
+                    self.showAlert(title: "", message: message, okTitle: "확인", okCompletion: {
+                        self.mainView.emailTextField.text = ""
+                        self.validateSignUpForm()
+                    }, cancleTitle: nil, cancleCompletion: nil)
+                }
+                
                 return
             }
-        
-            DispatchQueue.main.async {
-                self.showAlert(title: "가입 완료", message: "가입이 완료되었습니다.", okTitle: "확인", okCompletion: {
-                    self.navigationController?.popViewController(animated: true)
-                    let vc = SignInViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }, cancleTitle: nil, cancleCompletion: nil)
-            }
+            
+            self.showAlert(title: "", message: "가입이 완료되었습니다.", okTitle: "확인", okCompletion: {
+                
+                let vc = SignInViewController()
+                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }, cancleTitle: nil, cancleCompletion: nil)
+            
         }
-    
     }
 }
 
