@@ -15,11 +15,11 @@ class ChangePasswordView: UIView, ViewPresentable {
         setupConstraints()
     }
     
-    let passwordTextField = AuthUITextField()
-    let newPasswordTextField = AuthUITextField()
-    let confirmNewPasswordTextField = AuthUITextField()
+    let passwordTextField = CustomUITextField()
+    let newPasswordTextField = CustomUITextField()
+    let confirmNewPasswordTextField = CustomUITextField()
     
-    let changePasswordButton = AuthUIButton()
+    let changePasswordButton = CustomUIButton()
     
     func setupView() {
         

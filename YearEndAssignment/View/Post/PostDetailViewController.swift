@@ -1,45 +1,14 @@
 
 import UIKit
 
-class PostDetailViewController: UIViewController, UITextFieldDelegate {
+import Toast
+
+class PostDetailViewController: UIViewController {
     
     var viewModel = PostViewModel()
     let mainView = PostDetailView()
-    
+
     var editDeleteButton: UIBarButtonItem!
-    var menuItems: [UIAction] {
-        return [
-            UIAction(title: "게시글 수정", image: UIImage(systemName: "pencil"), handler: { _ in
-                let vc = PostWriteEditViewController()
-                vc.viewModel.navTitle = "새싹농장 글수정"
-                vc.viewModel.text.value = self.mainView.contentLabel.text ?? ""
-                vc.viewModel.post = self.viewModel.post
-                vc.handler = {
-                    self.viewModel.post = vc.viewModel.post
-                    self.mainView.configurePost(username: self.viewModel.post?.user.username ?? "", date: self.viewModel.post?.updatedAt ?? "", content: self.viewModel.post?.text ?? "", commentCount: self.viewModel.post?.comments.count ?? 0)
-                }
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                nav.modalTransitionStyle = .coverVertical
-                self.present(nav, animated: true, completion: nil)
-            }),
-            UIAction(title: "게시글 삭제", image: UIImage(systemName: "trash"), attributes: .destructive, handler: { _ in
-                self.viewModel.deleteUserPost { error in
-                    if let error = error {
-                        dump(error)
-                        return
-                    }
-                    
-                    self.navigationController?.popViewController(animated: true)
-                }
-            })
-        ]
-    }
-    
-    var menu: UIMenu {
-        return UIMenu(title: "", image: nil, identifier: nil, options: [], children: menuItems)
-    }
-    
     
     override func loadView() {
         self.view = mainView
@@ -53,19 +22,63 @@ class PostDetailViewController: UIViewController, UITextFieldDelegate {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         
-        
-        editDeleteButton = UIBarButtonItem(title: "", image: UIImage(systemName: "ellipsis.circle"), primaryAction: nil, menu: menu)
+        editDeleteButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: #selector(checkAuthorization))
         navigationItem.rightBarButtonItems = [editDeleteButton]
+
         
-        mainView.commentTextField.delegate = self
-        mainView.commentTextField.addTarget(self, action: #selector(commentTextFieldClicked(_:)), for: .touchDown)
-        
+        mainView.writeCommentButton.addTarget(self, action: #selector(writeCommentButtonClicked), for: .touchDown)
         
         mainView.tableView.refreshControl = UIRefreshControl()
-        mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshComment), for: .valueChanged)
     }
     
-    @objc func pullToRefresh() {
+    @objc func checkAuthorization() {
+        print(#function)
+        if viewModel.post?.user.email != UserDefaults.standard.string(forKey: "identifier") {
+            
+            let title = "글 수정 및 삭제 불가"
+            let message = "내가 작성한 글이 아닙니다."
+            
+            self.view.makeToast(message, duration: 3.0, position: .center, title: title, style: style)
+            
+        } else {
+            
+            self.showActionSheet(title: nil, message: nil, editTitle: "글 수정", editCompletion: {
+                let vc = PostWriteEditViewController()
+                
+                // 수정할 텍스트 전달
+                vc.viewModel.writeEditText.value = self.viewModel.post?.text ?? ""
+                
+                // 수정이 끝나면 API를 통해 포스트를 수정
+                vc.completionHandler = {
+                    self.viewModel.writeEditText.value = vc.viewModel.writeEditText.value
+                    self.viewModel.putUserPost { error in
+                        if let error = error {
+                            dump(error)
+                            return
+                        }
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+                
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                nav.modalTransitionStyle = .coverVertical
+                self.present(nav, animated: true, completion: nil)
+            }, deleteTitle: "글 삭제", deleteCompletion: {
+                self.viewModel.deleteUserPost { error in
+                    if let error = error {
+                        dump(error)
+                        return
+                    }
+                    
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }, cancleTitle: "취소", cancleCompletion: nil)
+        }
+    }
+    
+    @objc func pullToRefreshComment() {
         
         viewModel.getUserComment { error in
             
@@ -80,20 +93,16 @@ class PostDetailViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    @objc func commentTextFieldClicked(_ textfield: UITextField) {
-        textfield.resignFirstResponder()
-        
+    @objc func writeCommentButtonClicked() {
+    
         let vc = CommentWriteEditViewController()
         vc.viewModel.post = self.viewModel.post
-        vc.viewModel.navTitle = "댓글 쓰기"
         navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(String(describing: type(of: self)), #function)
         
-        print(viewModel.post?.id)
         viewModel.getUserPost { error in
             
             if let error = error {
@@ -118,7 +127,7 @@ class PostDetailViewController: UIViewController, UITextFieldDelegate {
 
 
 
-extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
+extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -130,24 +139,10 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailCommentTableViewCell.reuseIdentifier, for: indexPath) as? PostDetailCommentTableViewCell else { return UITableViewCell() }
-        
-        if viewModel.comments.count > 0 {
-            let row = viewModel.comments[indexPath.row]
-            let username = row.user.username
-            let content = row.comment
-            cell.configureCell(username: username, content: content)
-            
-        }
-        
-        return cell
+        return viewModel.commentCellForRowAt(tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return viewModel.heightOfRowAt
-    }
-    
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return nil
     }
 }

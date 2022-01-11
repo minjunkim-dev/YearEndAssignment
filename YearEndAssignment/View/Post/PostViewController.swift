@@ -11,7 +11,6 @@ class PostViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        print(String(describing: type(of: self)), #function)
         super.viewDidLoad()
         
         navigationItem.backButtonTitle = ""
@@ -19,25 +18,14 @@ class PostViewController: UIViewController {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         
-        
         mainView.tableView.refreshControl = UIRefreshControl()
-        mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshPost), for: .valueChanged)
         
-                
         mainView.writeButton.addTarget(self, action: #selector(writeButtonClicked), for: .touchUpInside)
-        
-        viewModel.getUserPost { error in
 
-            if let error = error {
-                dump(error)
-                return
-            }
-
-            self.mainView.tableView.reloadData()
-        }
     }
     
-    @objc func pullToRefresh() {
+    @objc func pullToRefreshPost() {
         viewModel.getUserPost { error in
             
             if let error = error {
@@ -53,9 +41,7 @@ class PostViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print(String(describing: type(of: self)), #function)
-        self.setLeftAlignedNavigationItemTitle(text: "새싹농장", size: 25, color: .black, weight: .heavy)
-        
+        setLeftAlignedNavigationItemTitle(text: "새싹농장", size: 25, color: .black, weight: .heavy)
         
         viewModel.getUserPost { error in
 
@@ -70,7 +56,22 @@ class PostViewController: UIViewController {
 
     @objc func writeButtonClicked() {
         let vc = PostWriteEditViewController()
-        vc.viewModel.navTitle = "새싹농장 글쓰기"
+
+        vc.completionHandler = {
+            if vc.mainView.textView.text != "" {
+                vc.viewModel.postUserPost { error in
+                    if let error = error {
+                        dump(error)
+                        return
+                    }
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+            else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+        
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         nav.modalTransitionStyle = .coverVertical
@@ -82,7 +83,7 @@ class PostViewController: UIViewController {
 extension PostViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        viewModel.numberOfSection
+        return viewModel.numberOfSection
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,22 +91,26 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.cellForRowAt(tableView, indexPath: indexPath)
+        return viewModel.postCellForRowAt(tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.heightOfRowAt
+//        return viewModel.heightOfRowAt
+        
+        if indexPath.row == 0 { // content
+            return UIScreen.main.bounds.height / 4
+        } else { // comment
+            return 44
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let row = self.viewModel.posts[indexPath.section]
-        
+
         let vc = PostDetailViewController()
-        vc.viewModel.post = row
-        vc.viewModel.posts = viewModel.posts
+        vc.viewModel.post = row // 클릭된 포스트의 정보를 전달
         self.navigationController?.pushViewController(vc, animated: true)
-        
+
     }
-    
 }

@@ -19,12 +19,17 @@ class PostView: UIView, ViewPresentable {
     let writeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.frame = .init(x: 0, y: 0, width: UIScreen.main.bounds.width / 7, height: UIScreen.main.bounds.width / 7)
-        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration.init(pointSize: UIScreen.main.bounds.width / 7, weight: UIImage.SymbolWeight.light), forImageIn: .normal)
+        
+        let size = UIScreen.main.bounds.width / 6
+        button.frame = .init(x: 0, y: 0, width: size, height: size)
+    
+        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration.init(pointSize: size, weight: UIImage.SymbolWeight.light), forImageIn: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
         button.layer.cornerRadius = button.bounds.size.width / 2
-
         button.backgroundColor = .systemGreen
         button.tintColor = .white
+        
         return button
     }()
     
@@ -40,7 +45,7 @@ class PostView: UIView, ViewPresentable {
         tableView.estimatedRowHeight = 100
         
         tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .lightGray
+        tableView.separatorColor = .systemGray3
         tableView.separatorInset = .zero
         
         tableView.sectionHeaderTopPadding = 0
@@ -58,7 +63,7 @@ class PostView: UIView, ViewPresentable {
         
         writeButton.snp.makeConstraints { make in
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(20)
         }
     }
 }

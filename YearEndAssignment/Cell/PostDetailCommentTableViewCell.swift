@@ -20,8 +20,7 @@ class PostDetailCommentTableViewCell: UITableViewCell {
         return [
             UIAction(title: "댓글 수정", image: UIImage(systemName: "pencil"), handler: { _ in
                 let vc = CommentWriteEditViewController()
-                vc.viewModel.navTitle = "댓글 수정"
-                vc.viewModel.text.value = self.contentLabel.text ?? ""
+                vc.viewModel.writeEditText.value = self.contentLabel.text ?? ""
                 vc.handler = {
                   
                 }

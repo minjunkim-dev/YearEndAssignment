@@ -32,10 +32,10 @@ class AuthView: UIView, ViewPresentable {
         return stack
     }()
     
-    let signupButton = AuthUIButton()
+    let signupButton = CustomUIButton()
     
     let signinLabel = UILabel()
-    let signinButton = AuthUIButton()
+    let signinButton = CustomUIButton()
     let signinStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal

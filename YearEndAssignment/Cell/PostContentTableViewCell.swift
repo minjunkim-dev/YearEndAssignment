@@ -22,7 +22,8 @@ class PostContentTableViewCell: UITableViewCell {
         
         usernameLabel.text = username
         contentLabel.text = content
-        dateLabel.text = date // 로컬라이징 필요!
+                
+        dateLabel.text = DateFormatter().getGmtToLocalDate(gmt: date)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,6 +45,8 @@ class PostContentTableViewCell: UITableViewCell {
         
         addSubview(dateLabel)
         dateLabel.sizeToFit()
+        
+        
     
     }
     

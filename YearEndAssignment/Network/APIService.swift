@@ -6,7 +6,7 @@ enum APIError: Error {
     case noData
     case failed
     case invalidData
-    
+    case invalidToken
     
     /* SignUp */
     case invalidEmail
@@ -33,7 +33,8 @@ extension APIError {
             return "failed"
         case .invalidData:
             return "invalidData"
-            
+        case .invalidToken:
+            return "invalidToken"
             
             
             

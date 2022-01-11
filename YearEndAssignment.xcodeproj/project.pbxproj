@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B91C1EA4278D7BF6006CF522 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C1EA3278D7BF6006CF522 /* DateFormatter+Extension.swift */; };
 		B94D6F5C277E94C40071CF45 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F5B277E94C40071CF45 /* AppDelegate.swift */; };
 		B94D6F5E277E94C40071CF45 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F5D277E94C40071CF45 /* SceneDelegate.swift */; };
 		B94D6F65277E94C50071CF45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B94D6F64277E94C50071CF45 /* Assets.xcassets */; };
@@ -24,13 +25,13 @@
 		B94D6F88277EA2FE0071CF45 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F87277EA2FE0071CF45 /* SignInViewController.swift */; };
 		B94D6F8A277EA3070071CF45 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F89277EA3070071CF45 /* SignUpViewController.swift */; };
 		B94D6F8C277EA5900071CF45 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8B277EA5900071CF45 /* User.swift */; };
-		B94D6F8E277EC84B0071CF45 /* AuthUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8D277EC84B0071CF45 /* AuthUITextField.swift */; };
-		B94D6F90277ECB110071CF45 /* AuthUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8F277ECB110071CF45 /* AuthUIButton.swift */; };
+		B94D6F8E277EC84B0071CF45 /* UITextField+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8D277EC84B0071CF45 /* UITextField+Custom.swift */; };
+		B94D6F90277ECB110071CF45 /* UIButton+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8F277ECB110071CF45 /* UIButton+Custom.swift */; };
+		B94EDB17278AE92200158AB2 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = B94EDB16278AE92200158AB2 /* Toast */; };
 		B98FE467278440070031F9CB /* PostDetailCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98FE466278440070031F9CB /* PostDetailCommentTableViewCell.swift */; };
 		B99442B9277EF65A00E15847 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99442B8277EF65A00E15847 /* ChangePasswordViewController.swift */; };
 		B99442BB277EF66500E15847 /* ChagnePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99442BA277EF66500E15847 /* ChagnePasswordView.swift */; };
-		B99A56F22780128000256C7B /* Alert+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56F12780128000256C7B /* Alert+Extension.swift */; };
-		B99A56F42780209300256C7B /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56F32780209300256C7B /* RequestError.swift */; };
+		B99A56F42780209300256C7B /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56F32780209300256C7B /* Error.swift */; };
 		B99A56F927805F9500256C7B /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56F827805F9500256C7B /* PostViewController.swift */; };
 		B99A56FB27805F9F00256C7B /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56FA27805F9F00256C7B /* PostDetailViewController.swift */; };
 		B99A56FD27805FB700256C7B /* PostWriteEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99A56FC27805FB700256C7B /* PostWriteEditViewController.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B91C1EA3278D7BF6006CF522 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		B94D6F58277E94C40071CF45 /* YearEndAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YearEndAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B94D6F5B277E94C40071CF45 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B94D6F5D277E94C40071CF45 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,13 +72,12 @@
 		B94D6F87277EA2FE0071CF45 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		B94D6F89277EA3070071CF45 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		B94D6F8B277EA5900071CF45 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		B94D6F8D277EC84B0071CF45 /* AuthUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUITextField.swift; sourceTree = "<group>"; };
-		B94D6F8F277ECB110071CF45 /* AuthUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUIButton.swift; sourceTree = "<group>"; };
+		B94D6F8D277EC84B0071CF45 /* UITextField+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Custom.swift"; sourceTree = "<group>"; };
+		B94D6F8F277ECB110071CF45 /* UIButton+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Custom.swift"; sourceTree = "<group>"; };
 		B98FE466278440070031F9CB /* PostDetailCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCommentTableViewCell.swift; sourceTree = "<group>"; };
 		B99442B8277EF65A00E15847 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		B99442BA277EF66500E15847 /* ChagnePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChagnePasswordView.swift; sourceTree = "<group>"; };
-		B99A56F12780128000256C7B /* Alert+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Extension.swift"; sourceTree = "<group>"; };
-		B99A56F32780209300256C7B /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
+		B99A56F32780209300256C7B /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		B99A56F827805F9500256C7B /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		B99A56FA27805F9F00256C7B /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		B99A56FC27805FB700256C7B /* PostWriteEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostWriteEditViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B94EDB17278AE92200158AB2 /* Toast in Frameworks */,
 				B94D6F82277E99DB0071CF45 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,20 +131,16 @@
 			isa = PBXGroup;
 			children = (
 				B94D6F69277E94C50071CF45 /* Info.plist */,
-				B99A56F12780128000256C7B /* Alert+Extension.swift */,
-				B94D6F74277E96A10071CF45 /* APIService.swift */,
 				B94D6F5B277E94C40071CF45 /* AppDelegate.swift */,
-				B94D6F72277E95BE0071CF45 /* Endpoint.swift */,
-				B94D6F7C277E99070071CF45 /* Observable.swift */,
-				B9F5A9F92782A51100CEF710 /* UIView+Extension.swift */,
-				B99A570F2781762600256C7B /* UIViewController+Extension.swift */,
 				B94D6F5D277E94C40071CF45 /* SceneDelegate.swift */,
-				B99A570D27815FC900256C7B /* UIWindow+Extension.swift */,
-				B94D6F7E277E99A50071CF45 /* ViewPresentable.swift */,
 				B94D6F64277E94C50071CF45 /* Assets.xcassets */,
 				B99A571E27827C3600256C7B /* Cell */,
+				B94EDB14278AAEAA00158AB2 /* Custom */,
+				B94EDB10278AA82400158AB2 /* Extension */,
 				B94D6F66277E94C50071CF45 /* LaunchScreen.storyboard */,
 				B94D6F6F277E95930071CF45 /* Model */,
+				B94EDB12278AA85E00158AB2 /* Network */,
+				B94EDB13278AA8C200158AB2 /* Protocol */,
 				B94D6F70277E959E0071CF45 /* View */,
 				B94D6F71277E95A40071CF45 /* ViewModel */,
 			);
@@ -153,8 +151,9 @@
 			isa = PBXGroup;
 			children = (
 				B99A571427817D3800256C7B /* Comment.swift */,
+				B99A56F32780209300256C7B /* Error.swift */,
+				B94D6F7C277E99070071CF45 /* Observable.swift */,
 				B99A571227817A7200256C7B /* Post.swift */,
-				B99A56F32780209300256C7B /* RequestError.swift */,
 				B94D6F8B277EA5900071CF45 /* User.swift */,
 			);
 			path = Model;
@@ -178,11 +177,48 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B94EDB10278AA82400158AB2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B99A571827817EB000256C7B /* UITableViewCell+Extension.swift */,
+				B9F5A9F92782A51100CEF710 /* UIView+Extension.swift */,
+				B99A570F2781762600256C7B /* UIViewController+Extension.swift */,
+				B99A570D27815FC900256C7B /* UIWindow+Extension.swift */,
+				B91C1EA3278D7BF6006CF522 /* DateFormatter+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		B94EDB12278AA85E00158AB2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B94D6F74277E96A10071CF45 /* APIService.swift */,
+				B94D6F72277E95BE0071CF45 /* Endpoint.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		B94EDB13278AA8C200158AB2 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B99A571627817E9200256C7B /* UITableViewCellRepresentable.swift */,
+				B94D6F7E277E99A50071CF45 /* ViewPresentable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		B94EDB14278AAEAA00158AB2 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				B94D6F8F277ECB110071CF45 /* UIButton+Custom.swift */,
+				B94D6F8D277EC84B0071CF45 /* UITextField+Custom.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		B99A56F52780539A00256C7B /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				B94D6F8F277ECB110071CF45 /* AuthUIButton.swift */,
-				B94D6F8D277EC84B0071CF45 /* AuthUITextField.swift */,
 				B94D6F83277E9B120071CF45 /* AuthView.swift */,
 				B94D6F85277EA2180071CF45 /* AuthViewController.swift */,
 				B94D6F76277E98050071CF45 /* SignInView.swift */,
@@ -215,8 +251,6 @@
 			children = (
 				B9F5A9C927827CD400CEF710 /* PostCommentTableViewCell.swift */,
 				B99A571A27817EF100256C7B /* PostContentTableViewCell.swift */,
-				B99A571827817EB000256C7B /* UITableViewCell+Extension.swift */,
-				B99A571627817E9200256C7B /* UITableViewCellRepresentable.swift */,
 				B98FE466278440070031F9CB /* PostDetailCommentTableViewCell.swift */,
 			);
 			path = Cell;
@@ -240,6 +274,7 @@
 			name = YearEndAssignment;
 			packageProductDependencies = (
 				B94D6F81277E99DB0071CF45 /* SnapKit */,
+				B94EDB16278AE92200158AB2 /* Toast */,
 			);
 			productName = YearEndAssignment;
 			productReference = B94D6F58277E94C40071CF45 /* YearEndAssignment.app */;
@@ -271,6 +306,7 @@
 			mainGroup = B94D6F4F277E94C40071CF45;
 			packageReferences = (
 				B94D6F80277E99DB0071CF45 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				B94EDB15278AE92200158AB2 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = B94D6F59277E94C40071CF45 /* Products */;
 			projectDirPath = "";
@@ -307,7 +343,7 @@
 				B94D6F75277E96A10071CF45 /* APIService.swift in Sources */,
 				B99A56FB27805F9F00256C7B /* PostDetailViewController.swift in Sources */,
 				B94D6F86277EA2180071CF45 /* AuthViewController.swift in Sources */,
-				B94D6F8E277EC84B0071CF45 /* AuthUITextField.swift in Sources */,
+				B94D6F8E277EC84B0071CF45 /* UITextField+Custom.swift in Sources */,
 				B9F5A9CA27827CD400CEF710 /* PostCommentTableViewCell.swift in Sources */,
 				B94D6F88277EA2FE0071CF45 /* SignInViewController.swift in Sources */,
 				B9F5A9FA2782A51100CEF710 /* UIView+Extension.swift in Sources */,
@@ -326,17 +362,17 @@
 				B94D6F8A277EA3070071CF45 /* SignUpViewController.swift in Sources */,
 				B99A571727817E9200256C7B /* UITableViewCellRepresentable.swift in Sources */,
 				B94D6F79277E98110071CF45 /* SignUpView.swift in Sources */,
-				B94D6F90277ECB110071CF45 /* AuthUIButton.swift in Sources */,
+				B94D6F90277ECB110071CF45 /* UIButton+Custom.swift in Sources */,
 				B99442B9277EF65A00E15847 /* ChangePasswordViewController.swift in Sources */,
 				B94D6F5C277E94C40071CF45 /* AppDelegate.swift in Sources */,
 				B94D6F73277E95BE0071CF45 /* Endpoint.swift in Sources */,
-				B99A56F42780209300256C7B /* RequestError.swift in Sources */,
-				B99A56F22780128000256C7B /* Alert+Extension.swift in Sources */,
+				B99A56F42780209300256C7B /* Error.swift in Sources */,
 				B94D6F84277E9B120071CF45 /* AuthView.swift in Sources */,
 				B99A5706278063B500256C7B /* PostView.swift in Sources */,
 				B99A571527817D3800256C7B /* Comment.swift in Sources */,
 				B94D6F5E277E94C40071CF45 /* SceneDelegate.swift in Sources */,
 				B99A571B27817EF100256C7B /* PostContentTableViewCell.swift in Sources */,
+				B91C1EA4278D7BF6006CF522 /* DateFormatter+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +598,14 @@
 				kind = branch;
 			};
 		};
+		B94EDB15278AE92200158AB2 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -569,6 +613,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B94D6F80277E99DB0071CF45 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		B94EDB16278AE92200158AB2 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B94EDB15278AE92200158AB2 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

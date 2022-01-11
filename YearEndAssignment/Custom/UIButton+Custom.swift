@@ -1,9 +1,7 @@
 
 import UIKit
 
-class AuthUITextField : UITextField {
-    
-    let padding = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 15)
+class CustomUIButton : UIButton {
     
     var cornerRadius: CGFloat {
         get {
@@ -33,27 +31,12 @@ class AuthUITextField : UITextField {
         }
     }
     
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
-    }
-    
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
-    }
-    
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
-        self.textColor = .black
-        self.textAlignment = .left
-        self.autocapitalizationType = .none
+        self.backgroundColor = .systemGreen
+        self.setTitleColor(.white, for: .normal)
+        self.titleLabel?.textAlignment = .center
         self.cornerRadius = 10
-        self.borderWidth = 2
-        self.borderColor = .lightGray
     }
     
     required init?(coder: NSCoder) {

@@ -17,9 +17,8 @@ class CommentWriteEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         navigationItem.backButtonTitle = ""
-        self.setCenterAlignedNavigationItemTitle(text: viewModel.navTitle, size: 18, color: .black, weight: .heavy)
+        setCenterAlignedNavigationItemTitle(text: "새싹농장 댓글쓰기", size: 18, color: .black, weight: .heavy)
         
         doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
         navigationItem.rightBarButtonItems = [doneButton]
@@ -34,8 +33,8 @@ class CommentWriteEditViewController: UIViewController {
     @objc func doneButtonClicked() {
         
         if mainView.textView.text != "" {
-            viewModel.text.value = self.mainView.textView.text
-            print(viewModel.text.value)
+            viewModel.writeEditText.value = self.mainView.textView.text
+            print(viewModel.writeEditText.value)
             viewModel.postUserComment { error in
                 if let error = error {
                     dump(error)

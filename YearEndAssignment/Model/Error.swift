@@ -18,6 +18,12 @@ struct Message: Codable {
     let id, message: String
 }
 
+struct InvalidTokenError: Codable {
+    let statusCode: Int
+    let error, message: String
+}
+
+
 /*
  Request Errors that may occur when "SignIn".
     - 1. Identifier or password invalid.

@@ -24,7 +24,8 @@ class PostCommentTableViewCell: UITableViewCell {
         setupView()
         setupConstraints()
         
-        commentButton.setTitle("  \(commentTitle)", for: .normal)
+        let margin = "  "
+        commentButton.setTitle(margin + "\(commentTitle)", for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

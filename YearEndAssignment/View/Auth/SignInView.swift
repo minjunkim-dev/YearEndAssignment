@@ -15,10 +15,10 @@ class SignInView: UIView, ViewPresentable {
         setupConstraints()
     }
     
-    let identifierTextField = AuthUITextField()
-    let passwordTextField = AuthUITextField()
+    let identifierTextField = CustomUITextField()
+    let passwordTextField = CustomUITextField()
     
-    let signinButton = AuthUIButton()
+    let signinButton = CustomUIButton()
 
     func setupView() {
         

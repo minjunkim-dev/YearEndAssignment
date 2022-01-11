@@ -97,8 +97,23 @@ extension URLSession {
                     print(response.statusCode)
                     
                     let decoder = JSONDecoder()
+                    
+                    
+                    
+                    if response.statusCode == 401 {
+                        let invalidTokenError = try! decoder.decode(InvalidTokenError.self, from: data)
+                
+                        if invalidTokenError.message == "Invalid token." {
+                            print("토큰이 유효하지 않음")
+                            completion(nil, .invalidToken)
+                        }
+                        
+                        return
+                    }
+                    
+                    
+                    
                     let requestError = try! decoder.decode(RequestError.self, from: data)
-        
                     if let message = requestError.message.first?.messages.first?.message {
                         
                         if message == "Email is already taken." {

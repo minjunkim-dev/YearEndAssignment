@@ -27,8 +27,6 @@ class CommentWriteEditView: UIView, ViewPresentable {
         textView.layer.cornerRadius = 10
         textView.autocapitalizationType = .none
         textView.font = .systemFont(ofSize: 18, weight: .semibold)
-        textView.sizeToFit()
-        textView.isScrollEnabled = false
     }
     
     func setupConstraints() {
@@ -36,7 +34,7 @@ class CommentWriteEditView: UIView, ViewPresentable {
         textView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
-//            make.height.equalTo(textView.snp.width).multipliedBy(0.33)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(20)
         }
     }
 }

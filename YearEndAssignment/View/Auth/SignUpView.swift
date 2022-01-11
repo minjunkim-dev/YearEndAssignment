@@ -15,12 +15,12 @@ class SignUpView: UIView, ViewPresentable {
         setupConstraints()
     }
     
-    let emailTextField = AuthUITextField()
-    let usernameTextField = AuthUITextField()
-    let passwordTextField = AuthUITextField()
-    let confirmPasswordTextField = AuthUITextField()
+    let emailTextField = CustomUITextField()
+    let usernameTextField = CustomUITextField()
+    let passwordTextField = CustomUITextField()
+    let confirmPasswordTextField = CustomUITextField()
     
-    let signupButton = AuthUIButton()
+    let signupButton = CustomUIButton()
     
     func setupView() {
         

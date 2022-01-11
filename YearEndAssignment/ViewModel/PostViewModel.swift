@@ -9,8 +9,7 @@ class PostViewModel {
     var comments: [CommentDetail] = []
     var comment: CommentDetail?
     
-    var text: Observable<String> = Observable("")
-    var navTitle: String = ""
+    var writeEditText: Observable<String> = Observable("")
     
     func getUserPost(completion: @escaping (APIError?) -> Void) {
         
@@ -32,12 +31,11 @@ class PostViewModel {
     func postUserPost(completion: @escaping (APIError?) -> Void) {
         
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
-        APIService.postContent(token: token, text: text.value) { data, error in
+        APIService.postContent(token: token, text: writeEditText.value) { data, error in
             if let data = data {
                 print("POST post 성공!")
 //                dump(data)
-                self.posts = [data]
-                print(self.posts.first?.id)
+//                self.posts = [data] // 저장할 필요 없을듯
                 completion(nil)
             } else {
                 print("POST post 실패!")
@@ -52,7 +50,7 @@ class PostViewModel {
         guard let postId = post?.id else { return }
         
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
-        APIService.putContent(token: token, text: text.value, postId: postId) { data, error in
+        APIService.putContent(token: token, text: writeEditText.value, postId: postId) { data, error in
             if let data = data {
                 print("PUT post 성공!")
 //                dump(data)
@@ -107,8 +105,8 @@ class PostViewModel {
         guard let postId = post?.id else { return }
         
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
-        print("text.value = \(text.value)")
-        APIService.postComment(token: token, comment: text.value, postId: postId) { data, error in
+        print("text.value = \(writeEditText.value)")
+        APIService.postComment(token: token, comment: writeEditText.value, postId: postId) { data, error in
             if let data = data {
                 print("GET comment 성공!")
                 dump(data)
@@ -126,7 +124,7 @@ class PostViewModel {
         guard let postId = post?.id else { return }
         
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
-        APIService.putComment(token: token, comment: text.value, postId: postId) { data, error in
+        APIService.putComment(token: token, comment: writeEditText.value, postId: postId) { data, error in
             if let data = data {
                 print("PUT comment 성공!")
 //                dump(data)
@@ -161,32 +159,34 @@ class PostViewModel {
 
 extension PostViewModel: UITableViewCellRepresentable {
     
+    
+    
     var numberOfSection: Int {
         return posts.count
     }
     
     var numberOfRowsInSection: Int {
-        return 2 // content + comment
+        return 2 // content cell + comment cell
     }
 
     var heightOfRowAt: CGFloat {
         return UITableView.automaticDimension
     }
     
-    func cellForRowAt(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+    func postCellForRowAt(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
  
         let row = posts[indexPath.section]
         
-        if indexPath.row == 0 { // content
+        if indexPath.row == 0 { // content cell
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostContentTableViewCell.reuseIdentifier, for: indexPath) as? PostContentTableViewCell else { return UITableViewCell() }
 
             
             
-            cell.configureCell(username: row.user.username, content: row.text, date: row.createdAt)
+            cell.configureCell(username: row.user.username, content: row.text, date: row.updatedAt)
             
             return cell
-        } else { // comment
+        } else { // comment cell
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCommentTableViewCell.reuseIdentifier, for: indexPath) as? PostCommentTableViewCell else { return UITableViewCell() }
             
@@ -195,16 +195,37 @@ extension PostViewModel: UITableViewCellRepresentable {
             
             return cell
         }
-    }
-    
-    func viewForFooterInSection(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         
-        let view = UIView().getViewForFooterInSection(width: tableView.frame.size.width, height: 10, color: .lightGray)
-        return view
+        
+        func commentCellForRowAt(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostDetailCommentTableViewCell.reuseIdentifier, for: indexPath) as? PostDetailCommentTableViewCell else { return UITableViewCell() }
+            
+            if comments.count > 0 {
+                let row = comments[indexPath.row]
+                let username = row.user.username
+                let content = row.comment
+                cell.configureCell(username: username, content: content)
+            }
+            
+            return cell
+        }
+        
+        
     }
     
-    func heightForFooterInSection(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
+    
+    
+//    func viewForFooterInSection(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//
+//        let view = UIView().getViewForFooterInSection(width: tableView.frame.size.width, height: 10, color: .systemGray3)
+//        return view
+//    }
+    
+//    func heightForFooterInSection(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 10
+//    }
+    
+    
 }
 

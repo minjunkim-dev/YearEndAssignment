@@ -3,7 +3,7 @@ import Foundation
 // MARK: - Post
 struct Post: Codable {
     let id: Int
-    let text: String
+    var text: String
     let user: UserInfo
     let createdAt, updatedAt: String
     let comments: [Comment]

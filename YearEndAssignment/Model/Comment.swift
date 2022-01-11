@@ -4,8 +4,9 @@ import Foundation
 // MARK: - Comment
 struct Comment: Codable {
     let id: Int
-    let comment: String
-    let user, post: Int
+    var comment: String
+    let user: Int
+    let post: Int?
     let createdAt, updatedAt: String
 
     enum CodingKeys: String, CodingKey {
@@ -18,7 +19,7 @@ struct Comment: Codable {
 // MARK: - CommentDetail
 struct CommentDetail: Codable {
     let id: Int
-    let comment: String
+    var comment: String
     let user: UserInfo
     let createdAt, updatedAt: String
 
