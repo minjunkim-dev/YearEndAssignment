@@ -16,6 +16,8 @@ class PostViewModel {
     var newPassword: Observable<String> = Observable("")
     var confirmNewPassword: Observable<String> = Observable("")
     
+    var isEnabledChangePasswordButton: Observable<Bool> = Observable(false)
+    
     
     func getUserPost(completion: @escaping (APIError?) -> Void) {
         
@@ -169,7 +171,9 @@ class PostViewModel {
     
     
     func postUserChangePassword(completion: @escaping (APIError?) -> Void) {
-        APIService.changePassword(password: password.value, newPassword: newPassword.value, confirmNewPassword: confirmNewPassword.value) { data, error in
+        
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        APIService.changePassword(token: token, password: password.value, newPassword: newPassword.value, confirmNewPassword: confirmNewPassword.value) { data, error in
 
             if let data = data {
                 print("비밀번호 변경 성공!")

@@ -94,79 +94,104 @@ extension URLSession {
                     return
                 }
                 
-                print(response.statusCode)
                 
                 guard response.statusCode == 200 else {
                     
                     
                     let decoder = JSONDecoder()
                     
-                    if response.statusCode == 401 {
-                        let invalidTokenError = try! decoder.decode(InvalidTokenError.self, from: data)
-                
-                        if invalidTokenError.message == "Invalid token." {
-                            print("토큰이 유효하지 않음")
-                            completion(nil, .invalidToken)
+                    if response.statusCode == 400 {
+                        
+                        do {
+                            // sign error
+                            let requestError = try decoder.decode(SignError.self, from: data)
+                            if let message = requestError.message.first?.messages.first?.message {
+                                
+                                if message == "Email is already taken." {
+                                    print("이메일 중복")
+                                    completion(nil, .duplicateEmail)
+                                }
                             
-                            /* 초기 화면으로 진입 */
-                            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                                if message == "Please provide valid email address." {
+                                    print("이메일 형식이 아님")
+                                    completion(nil, .invalidEmail)
+                                }
+                                
+                                if message == "Identifier or password invalid." {
+                                    print("유효하지 않은 이메일 또는 비밀번호")
+                                    completion(nil, .invalidIdOrPassword)
+                                }
+                                
+                                completion(nil, .failed)
                                 return
                             }
                             
-                            let window = windowScene.windows
-                                .first
-                            
-                            let duration = 0.5
-                            let options = UIView.AnimationOptions.transitionCrossDissolve
-                            let rootViewController = AuthViewController()
-                            window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
+                        } catch {
+                            do {
+                                
+                                // change password error
+                                let changePasswordError = try decoder.decode(ChangePasswordError.self, from: data)
+
+                                
+                                if changePasswordError.message == "Current password does not match." {
+                                    print("현재 비밀번호가 일치하지 않음")
+                                    completion(nil, .currentPasswordNotMatch)
+                                }
+                                
+                                if changePasswordError.message == "New passwords do not match." {
+                                    print("새로운 비밀번호가 일치하지 않음")
+                                    completion(nil, .newPasswordNotMatch)
+                                }
+                                
+                                completion(nil, .failed)
+                                return
+                                
+                            } catch {
+                                
+                                completion(nil, .failed)
+                                return
+                            }
                         }
                         
                         completion(nil, .failed)
                         return
                     }
                     
-                    // chagne password error
-                    if response.statusCode == 403 {
+                    // invalid token error
+                    if response.statusCode == 401 {
                         
-                        let changePasswordError = try! decoder.decode(ChangePasswordError.self, from: data)
-                        
-                        print(changePasswordError.message)
-                
-                        if changePasswordError.message == "Current password does not match." {
-                            print("현재 비밀번호가 일치하지 않음")
-                            completion(nil, .currentPasswordNotMatch)
+                        do  {
+                            let invalidTokenError = try decoder.decode(InvalidTokenError.self, from: data)
+                    
+                            if invalidTokenError.message == "Invalid token." {
+                                print("토큰이 유효하지 않음")
+                                
+                                /* 초기 화면으로 진입 */
+                                guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                                    return
+                                }
+                                
+                                let window = windowScene.windows
+                                    .first
+                                
+                                let duration = 0.5
+                                let options = UIView.AnimationOptions.transitionCrossDissolve
+                                let rootViewController = AuthViewController()
+                                window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
+                                
+                                completion(nil, .invalidToken)
+                                return
+                            }
+                        } catch {
+                            completion(nil, .failed)
+                            return
                         }
                         
-                        if changePasswordError.message == "New passwords do not match." {
-                            print("새로운 비밀번호가 일치하지 않음")
-                            completion(nil, .newPasswordNotMatch)
-                        }
-                        
+                        completion(nil, .failed)
                         return
                     }
                     
-                    let requestError = try! decoder.decode(RequestError.self, from: data)
-                    if let message = requestError.message.first?.messages.first?.message {
-                        
-                        if message == "Email is already taken." {
-                            print("이메일 중복")
-                            completion(nil, .duplicateEmail)
-                        }
-                    
-                        if message == "Please provide valid email address." {
-                            print("이메일 형식이 아님")
-                            completion(nil, .invalidEmail)
-                        }
-                        
-                        if message == "Identifier or password invalid." {
-                            print("유효하지 않은 이메일 또는 비밀번호")
-                            completion(nil, .invalidIdOrPassword)
-                        }
-                        
-                        return
-                    }
-                    
+                   
                     completion(nil, .failed)
                     return
                 }

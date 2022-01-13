@@ -43,8 +43,8 @@ class ChangePasswordView: UIView, ViewPresentable {
         addSubview(changePasswordButton)
         changePasswordButton.setTitle("변경하기", for: .normal)
         changePasswordButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .heavy)
-        changePasswordButton.backgroundColor = .lightGray
-                
+        changePasswordButton.backgroundColor = .systemGray3
+        changePasswordButton.isEnabled = false
     }
     
     func setupConstraints() {

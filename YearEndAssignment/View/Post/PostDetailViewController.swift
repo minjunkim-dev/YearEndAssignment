@@ -39,7 +39,7 @@ class PostDetailViewController: UIViewController {
         if viewModel.post?.user.email != UserDefaults.standard.string(forKey: "identifier") {
             
             let title = "글 수정 및 삭제 불가"
-            let message = "내가 작성한 글이 아닙니다."
+            let message = "내가 작성한 글이 아니에요"
             
             self.mainView.contentTextView.hideAllToasts()
             self.mainView.contentTextView.makeToast(message, duration: 3.0, position: .center, title: title, style: ToastManager.customStyle)

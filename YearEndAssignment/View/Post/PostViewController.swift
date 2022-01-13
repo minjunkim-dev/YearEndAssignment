@@ -28,7 +28,7 @@ class PostViewController: UIViewController {
         changePasswordButton = UIBarButtonItem(title: "비밀번호 변경", style: .done, target: self, action: #selector(changePasswordButtonClicked))
         
         /* 비밀번호 변경 에러를 아직 못잡음... */
-//        navigationItem.rightBarButtonItems = [changePasswordButton]
+        navigationItem.rightBarButtonItems = [changePasswordButton]
         
     }
     

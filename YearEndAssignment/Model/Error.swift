@@ -2,7 +2,7 @@
 import Foundation
 
 // MARK: - RequestError
-struct RequestError: Codable {
+struct SignError: Codable {
     let statusCode: Int
     let error: String
     let message, data: [Datum]

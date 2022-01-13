@@ -41,7 +41,7 @@ class PostDetailCommentTableViewCell: UITableViewCell {
         if self.identifier != UserDefaults.standard.string(forKey: "identifier") {
             
             let title = "댓글 수정 및 삭제 불가"
-            let message = "내가 작성한 댓글이 아닙니다."
+            let message = "내가 작성한 댓글이 아니에요"
             
             self.contentView.hideAllToasts()
             self.contentView.makeToast(message, duration: 3.0, position: .center, title: title, style: ToastManager.customStyle)

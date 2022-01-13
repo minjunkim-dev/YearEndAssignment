@@ -105,7 +105,7 @@ class SignUpViewController: UIViewController {
         
         // 예외 처리: 비밀번호 불일치(클라이언트 단에서 처리)
         if mainView.passwordTextField.text != mainView.confirmPasswordTextField.text {
-            showAlert(title: "", message: "비밀번호가 다릅니다.\n", okTitle: "확인", okCompletion: {
+            showAlert(title: nil, message: "비밀번호가 달라요", okTitle: "확인", okCompletion: {
                 self.mainView.passwordTextField.text = ""
                 self.mainView.confirmPasswordTextField.text = ""
                 self.validateSignUpForm()
@@ -124,8 +124,8 @@ class SignUpViewController: UIViewController {
                 
                 if error == APIError.duplicateEmail {
                     
-                    let message = "이미 등록된 이메일입니다."
-                    self.showAlert(title: "", message: message, okTitle: "확인", okCompletion: {
+                    let message = "이미 등록된 이메일이에요"
+                    self.showAlert(title: nil, message: message, okTitle: "확인", okCompletion: {
                         self.mainView.emailTextField.text = ""
                         self.validateSignUpForm()
                     }, cancleTitle: nil, cancleCompletion: nil)
@@ -133,8 +133,8 @@ class SignUpViewController: UIViewController {
                 
                 else if error == APIError.invalidEmail {
                     
-                    let message = "유효한 이메일 형식이 아닙니다."
-                    self.showAlert(title: "", message: message, okTitle: "확인", okCompletion: {
+                    let message = "유효한 이메일 형식이 아니에요"
+                    self.showAlert(title: nil, message: message, okTitle: "확인", okCompletion: {
                         self.mainView.emailTextField.text = ""
                         self.validateSignUpForm()
                     }, cancleTitle: nil, cancleCompletion: nil)
@@ -143,7 +143,7 @@ class SignUpViewController: UIViewController {
                 return
             }
             
-            self.showAlert(title: "", message: "가입이 완료되었습니다.", okTitle: "확인", okCompletion: {
+            self.showAlert(title: nil, message: "가입이 완료되었어요", okTitle: "확인", okCompletion: {
                 
                 let vc = SignInViewController()
                 self.navigationController?.popViewController(animated: true)

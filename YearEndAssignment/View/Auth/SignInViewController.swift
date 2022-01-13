@@ -80,7 +80,7 @@ class SignInViewController: UIViewController {
                 // 에러 처리 - "Identifier or password invalid."
                 if error == APIError.invalidIdOrPassword {
                     
-                    self.showAlert(title: "", message: "유효하지 않은 아이디\n또는 비밀번호입니다.", okTitle: "확인", okCompletion: {
+                    self.showAlert(title: nil, message: "유효하지 않은 아이디\n또는 비밀번호에요", okTitle: "확인", okCompletion: {
                         self.mainView.identifierTextField.text = ""
                         self.mainView.passwordTextField.text = ""
                         self.validateSignInForm()

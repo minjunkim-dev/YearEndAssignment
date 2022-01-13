@@ -72,6 +72,7 @@ class APIService {
         
         var request = URLRequest(url: Endpoint.signin.url)
         request.httpMethod = Method.POST.rawValue
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = "identifier=\(identifier)&password=\(password)".data(using: .utf8, allowLossyConversion: false)
         
         URLSession.request(session: .shared, endpoint: request, completion: completion)
@@ -81,7 +82,9 @@ class APIService {
         
         var request = URLRequest(url: Endpoint.signup.url)
         request.httpMethod = Method.POST.rawValue
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = "username=\(username)&email=\(email)&password=\(password)".data(using: .utf8, allowLossyConversion: false)
+        
         
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
@@ -180,13 +183,14 @@ class APIService {
     
     
     
-    static func changePassword(password: String, newPassword: String, confirmNewPassword: String, completion: @escaping (User?, APIError?) -> Void) {
+    static func changePassword(token: String, password: String, newPassword: String, confirmNewPassword: String, completion: @escaping (UserInfo?, APIError?) -> Void) {
         
         var request = URLRequest(url: Endpoint.changePassword.url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = Method.POST.rawValue
         request.httpBody = "currentPassword=\(password)&newPassword=\(newPassword)&confirmNewPassword=\(confirmNewPassword)".data(using: .utf8, allowLossyConversion: false)
         
-        dump(request)
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
 }
