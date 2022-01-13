@@ -12,27 +12,54 @@ class ChangePasswordViewController: UIViewController {
         self.view = mainView
     }
     
+    var doneButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        setCenterAlignedNavigationItemTitle(text: "새싹농장 비밀번호 변경하기", size: 18, color: .black, weight: .heavy)
         
-        navigationItem.title = "새싹농장 비밀번호 변경하기"
+        mainView.passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange(_:)), for: .editingChanged)
+        mainView.passwordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+        viewModel.password.bind { text in
+            self.mainView.passwordTextField.text = text
+        }
         
-//        mainView.passwordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange(_:)), for: .editingChanged)
-//        mainView.passwordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-//        
-//        
-//        mainView.newPasswordTextField.addTarget(self, action: #selector(passwordTextFieldDidChange(_:)), for: .editingChanged)
-//        mainView.newPasswordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-//        
-//    
-//        mainView.confirmNewPasswordTextField.addTarget(self, action: #selector(confirmNewPasswordTextFieldDidChange(_:)), for: .editingChanged)
-//        mainView.confirmNewPasswordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-//        
-//        mainView.changePasswordButton.addTarget(self, action: #selector(changePasswordButtonClicked), for: .touchUpInside)
         
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        mainView.newPasswordTextField.addTarget(self, action: #selector(newPasswordTextFieldDidChange(_:)), for: .editingChanged)
+        mainView.newPasswordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+        viewModel.newPassword.bind { text in
+            self.mainView.newPasswordTextField.text = text
+        }
+    
+        mainView.confirmNewPasswordTextField.addTarget(self, action: #selector(confirmNewPasswordTextFieldDidChange(_:)), for: .editingChanged)
+        mainView.confirmNewPasswordTextField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+        viewModel.confirmNewPassword.bind { text in
+            self.mainView.confirmNewPasswordTextField.text = text
+        }
         
-//        view.addGestureRecognizer(tap)
+        
+        mainView.changePasswordButton.addTarget(self, action: #selector(changePasswordButtonClicked), for: .touchUpInside)
+        
+        doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
+        navigationItem.rightBarButtonItems = [doneButton]
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func doneButtonClicked() {
+        
+        viewModel.postUserChangePassword { error in
+            if let error = error {
+                dump(error)
+                
+                return
+            }
+            
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 
     func activateChangePasswordButton() {
@@ -43,32 +70,26 @@ class ChangePasswordViewController: UIViewController {
               }
         mainView.changePasswordButton.backgroundColor = .systemGreen
     }
-    
-//    @objc func identifierTextFieldDidChange(_ textfield: UITextField) {
-//        viewModel.identifier.value = textfield.text ?? ""
-//        activateChangePasswordButton()
-//    }
-//
-//    @objc func passwordTextFieldDidChange(_ textfield: UITextField) {
-//        viewModel.password.value = textfield.text ?? ""
-//        activateChangePasswordButton()
-//    }
-//
-//    @objc func newPasswordTextFieldDidChange(_ textfield: UITextField) {
-//        viewModel.newPassword.value = textfield.text ?? ""
-//        activateChangePasswordButton()
-//    }
-//
-//    @objc func confirmNewPasswordTextFieldDidChange(_ textfield: UITextField) {
-//        viewModel.confirmNewPassword.value = textfield.text ?? ""
-//        activateChangePasswordButton()
-//    }
+  
+    @objc func passwordTextFieldDidChange(_ textfield: UITextField) {
+        viewModel.password.value = textfield.text ?? ""
+        activateChangePasswordButton()
+    }
+
+    @objc func newPasswordTextFieldDidChange(_ textfield: UITextField) {
+        viewModel.newPassword.value = textfield.text ?? ""
+        activateChangePasswordButton()
+    }
+
+    @objc func confirmNewPasswordTextFieldDidChange(_ textfield: UITextField) {
+        viewModel.confirmNewPassword.value = textfield.text ?? ""
+        activateChangePasswordButton()
+    }
     
     @objc func changePasswordButtonClicked() {
         
-        DispatchQueue.main.async {
-//            self.navigationController?.popViewController(animated: true)
-//            self.dismiss(animated: true, completion: nil)
-        }
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
+        
     }
 }

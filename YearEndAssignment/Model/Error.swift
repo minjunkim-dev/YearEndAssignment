@@ -24,6 +24,14 @@ struct InvalidTokenError: Codable {
 }
 
 
+// MARK: - ChangePasswordError
+struct ChangePasswordError: Codable {
+    let statusCode: Int
+    let error, message: String
+}
+
+
+
 /*
  Request Errors that may occur when "SignIn".
     - 1. Identifier or password invalid.
@@ -38,6 +46,9 @@ struct InvalidTokenError: Codable {
     - 3. Please provide your password.
  */
 
-
-
+/*
+ Request Errors that may occur when "ChangePassword".
+    - 1. Current password does not match.
+    - 2. New passwords do not match.
+ */
 

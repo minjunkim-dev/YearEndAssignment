@@ -54,17 +54,4 @@ class AuthViewModel {
     
     
     
-//    func postUserChangePassword(completion: @escaping (APIError?) -> Void) {
-//        APIService.changePassword(currentPassword: password.value, newPassword: newPassword.value, confirmNewPassword: confirmNewPassword.value) { data, error in
-//
-//            if let data = data {
-//                print("비밀번호 변경 성공!")
-//                completion(nil)
-//            } else {
-//                print("비밀번호 변경 실패!")
-//                dump(error)
-//                completion(error)
-//            }
-//        }
-//    }
 }

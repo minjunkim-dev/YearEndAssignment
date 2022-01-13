@@ -1,5 +1,6 @@
 
-import Foundation
+
+import UIKit
 
 enum Endpoint {
     case signup
@@ -35,19 +36,19 @@ extension Endpoint {
         case .getPostsAsc: return .makeEndpoint(endpoint: "/posts" + "?_sort=created_at:asc")
         case .getPostsDesc: return .makeEndpoint(endpoint: "/posts" + "?_sort=created_at:desc")
         case .postPosts: return .makeEndpoint(endpoint: "/posts")
-        case .putPosts(let id):
-            return .makeEndpoint(endpoint: "/posts/\(id)")
-        case .deletePosts(let id):
-            return .makeEndpoint(endpoint: "/posts/\(id)")
+        case .putPosts(let postId):
+            return .makeEndpoint(endpoint: "/posts/\(postId)")
+        case .deletePosts(let postId):
+            return .makeEndpoint(endpoint: "/posts/\(postId)")
             
-        case .getComments(let id):
-            return .makeEndpoint(endpoint: "/comments?post=\(id)")
+        case .getComments(let postId):
+            return .makeEndpoint(endpoint: "/comments?post=\(postId)")
         case .postComments:
             return .makeEndpoint(endpoint: "/comments")
-        case .putComments(let id):
-            return .makeEndpoint(endpoint: "/comments/\(id)")
-        case .deleteComments(let id):
-            return .makeEndpoint(endpoint: "/comments/\(id)")
+        case .putComments(let commentId):
+            return .makeEndpoint(endpoint: "/comments/\(commentId)")
+        case .deleteComments(let commentId):
+            return .makeEndpoint(endpoint: "/comments/\(commentId)")
     
         case .changePassword: return .makeEndpoint(endpoint: "/custom/change-password")
         }
@@ -93,12 +94,12 @@ extension URLSession {
                     return
                 }
                 
+                print(response.statusCode)
+                
                 guard response.statusCode == 200 else {
-                    print(response.statusCode)
+                    
                     
                     let decoder = JSONDecoder()
-                    
-                    
                     
                     if response.statusCode == 401 {
                         let invalidTokenError = try! decoder.decode(InvalidTokenError.self, from: data)
@@ -106,12 +107,44 @@ extension URLSession {
                         if invalidTokenError.message == "Invalid token." {
                             print("토큰이 유효하지 않음")
                             completion(nil, .invalidToken)
+                            
+                            /* 초기 화면으로 진입 */
+                            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                                return
+                            }
+                            
+                            let window = windowScene.windows
+                                .first
+                            
+                            let duration = 0.5
+                            let options = UIView.AnimationOptions.transitionCrossDissolve
+                            let rootViewController = AuthViewController()
+                            window?.changeRootViewControllerWithAnimation(duration: duration, options: options, rootViewController: rootViewController)
+                        }
+                        
+                        completion(nil, .failed)
+                        return
+                    }
+                    
+                    // chagne password error
+                    if response.statusCode == 403 {
+                        
+                        let changePasswordError = try! decoder.decode(ChangePasswordError.self, from: data)
+                        
+                        print(changePasswordError.message)
+                
+                        if changePasswordError.message == "Current password does not match." {
+                            print("현재 비밀번호가 일치하지 않음")
+                            completion(nil, .currentPasswordNotMatch)
+                        }
+                        
+                        if changePasswordError.message == "New passwords do not match." {
+                            print("새로운 비밀번호가 일치하지 않음")
+                            completion(nil, .newPasswordNotMatch)
                         }
                         
                         return
                     }
-                    
-                    
                     
                     let requestError = try! decoder.decode(RequestError.self, from: data)
                     if let message = requestError.message.first?.messages.first?.message {
@@ -123,6 +156,7 @@ extension URLSession {
                     
                         if message == "Please provide valid email address." {
                             print("이메일 형식이 아님")
+                            completion(nil, .invalidEmail)
                         }
                         
                         if message == "Identifier or password invalid." {

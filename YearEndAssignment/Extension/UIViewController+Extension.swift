@@ -2,8 +2,8 @@ import UIKit
 
 import Toast
 
-extension UIViewController
-{
+extension UIViewController {
+    
     func showAlert(title: String?, message: String?, okTitle: String, okCompletion: (() -> Void)?, cancleTitle: String?, cancleCompletion: (() -> Void)?) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

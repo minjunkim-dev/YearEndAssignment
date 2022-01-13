@@ -8,7 +8,7 @@ class CommentWriteEditViewController: UIViewController {
     
     var doneButton: UIBarButtonItem!
     
-    var handler: (() -> Void)?
+    var completionHandler: (() -> Void)?
     
     override func loadView() {
         self.view = mainView
@@ -23,28 +23,30 @@ class CommentWriteEditViewController: UIViewController {
         doneButton = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
         navigationItem.rightBarButtonItems = [doneButton]
         
+        mainView.textView.delegate = self
         mainView.textView.becomeFirstResponder()
+        viewModel.writeEditText.bind { text in
+            self.mainView.textView.text = text
+        }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
     }
     
+    
     @objc func doneButtonClicked() {
         
-        if mainView.textView.text != "" {
-            viewModel.writeEditText.value = self.mainView.textView.text
-            print(viewModel.writeEditText.value)
-            viewModel.postUserComment { error in
-                if let error = error {
-                    dump(error)
-                    return
-                }
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
-        self.navigationController?.popViewController(animated: true)
+        completionHandler?()
     
     }
     
+}
+
+extension CommentWriteEditViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        viewModel.writeEditText.value = textView.text
+    }
 }

@@ -9,7 +9,7 @@ class PostDetailViewController: UIViewController {
     let mainView = PostDetailView()
 
     var editDeleteButton: UIBarButtonItem!
-    
+
     override func loadView() {
         self.view = mainView
     }
@@ -22,7 +22,7 @@ class PostDetailViewController: UIViewController {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         
-        editDeleteButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: #selector(checkAuthorization))
+        editDeleteButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: #selector(checkAuthorizationOnPost))
         navigationItem.rightBarButtonItems = [editDeleteButton]
 
         
@@ -30,16 +30,19 @@ class PostDetailViewController: UIViewController {
         
         mainView.tableView.refreshControl = UIRefreshControl()
         mainView.tableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshComment), for: .valueChanged)
+        
+        mainView.tableView.allowsSelection = false
     }
     
-    @objc func checkAuthorization() {
+    @objc func checkAuthorizationOnPost() {
         print(#function)
         if viewModel.post?.user.email != UserDefaults.standard.string(forKey: "identifier") {
             
             let title = "글 수정 및 삭제 불가"
             let message = "내가 작성한 글이 아닙니다."
             
-            self.view.makeToast(message, duration: 3.0, position: .center, title: title, style: style)
+            self.mainView.contentTextView.hideAllToasts()
+            self.mainView.contentTextView.makeToast(message, duration: 3.0, position: .center, title: title, style: ToastManager.customStyle)
             
         } else {
             
@@ -87,6 +90,7 @@ class PostDetailViewController: UIViewController {
                 return
             }
             
+            self.mainView.tableView.refreshControl?.beginRefreshing()
             self.mainView.tableView.reloadData()
             self.mainView.tableView.refreshControl?.endRefreshing()
         }
@@ -96,32 +100,45 @@ class PostDetailViewController: UIViewController {
     @objc func writeCommentButtonClicked() {
     
         let vc = CommentWriteEditViewController()
-        vc.viewModel.post = self.viewModel.post
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        viewModel.getUserPost { error in
+        vc.completionHandler = {
             
-            if let error = error {
-                dump(error)
-                return
-            }
-            
-            self.mainView.configurePost(username: self.viewModel.post?.user.username ?? "", date: self.viewModel.post?.updatedAt ?? "", content: self.viewModel.post?.text ?? "", commentCount: self.viewModel.post?.comments.count ?? 0)
-            
-            self.viewModel.getUserComment { error in
-                
+            self.viewModel.writeEditText.value = vc.viewModel.writeEditText.value
+            self.viewModel.postUserComment { error in
                 if let error = error {
                     dump(error)
                     return
                 }
                 
-                self.mainView.tableView.reloadData()
+                vc.navigationController?.popViewController(animated: true)
             }
         }
+        
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func reloadView() {
+
+            
+        self.viewModel.getUserComment { error in
+            
+            if let error = error {
+                dump(error)
+                return
+            }
+         
+            /* 뷰 리로드 */
+            self.mainView.configurePost(username: self.viewModel.post?.user.username ?? "", date: self.viewModel.post?.updatedAt ?? "", content: self.viewModel.post?.text ?? "", commentCount: self.viewModel.comments.count)
+            self.mainView.tableView.reloadData()
+        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(#function)
+        reloadView()
     }
 }
 

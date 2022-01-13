@@ -35,6 +35,7 @@ class PostWriteEditViewController: UIViewController {
         mainView.textView.becomeFirstResponder()
     }
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         mainView.textView.resignFirstResponder()
     }
     

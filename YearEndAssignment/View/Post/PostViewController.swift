@@ -6,6 +6,8 @@ class PostViewController: UIViewController {
     let mainView = PostView()
     var viewModel = PostViewModel()
     
+    var changePasswordButton: UIBarButtonItem!
+    
     override func loadView() {
         self.view = mainView
     }
@@ -23,6 +25,11 @@ class PostViewController: UIViewController {
         
         mainView.writeButton.addTarget(self, action: #selector(writeButtonClicked), for: .touchUpInside)
 
+        changePasswordButton = UIBarButtonItem(title: "비밀번호 변경", style: .done, target: self, action: #selector(changePasswordButtonClicked))
+        
+        /* 비밀번호 변경 에러를 아직 못잡음... */
+//        navigationItem.rightBarButtonItems = [changePasswordButton]
+        
     }
     
     @objc func pullToRefreshPost() {
@@ -33,9 +40,17 @@ class PostViewController: UIViewController {
                 return
             }
         
+            self.mainView.tableView.refreshControl?.beginRefreshing()
             self.mainView.tableView.reloadData()
             self.mainView.tableView.refreshControl?.endRefreshing()
         }
+    }
+    
+    @objc func changePasswordButtonClicked() {
+        
+        let vc = ChangePasswordViewController()
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,18 +73,16 @@ class PostViewController: UIViewController {
         let vc = PostWriteEditViewController()
 
         vc.completionHandler = {
-            if vc.mainView.textView.text != "" {
-                vc.viewModel.postUserPost { error in
-                    if let error = error {
-                        dump(error)
-                        return
-                    }
-                    self.dismiss(animated: true, completion: nil)
+            
+            self.viewModel.writeEditText.value = vc.viewModel.writeEditText.value
+            self.viewModel.postUserPost { error in
+                if let error = error {
+                    dump(error)
+                    return
                 }
-            }
-            else {
                 self.dismiss(animated: true, completion: nil)
             }
+           
         }
         
         let nav = UINavigationController(rootViewController: vc)

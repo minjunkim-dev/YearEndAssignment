@@ -17,7 +17,8 @@ enum APIError: Error {
     case invalidIdOrPassword
     
     
-    case oldPasswordNotMatch
+    case currentPasswordNotMatch
+    case newPasswordNotMatch
 }
 
 extension APIError {
@@ -40,10 +41,6 @@ extension APIError {
             
             
         case .invalidEmail:
-            
-            
-            
-            
             return "invalidEmail"
         case .duplicateEmail:
             return "duplicateEmail"
@@ -53,8 +50,10 @@ extension APIError {
             
             
             
-        case .oldPasswordNotMatch:
-            return "oldPasswordNotMatch"
+        case .currentPasswordNotMatch:
+            return "currentPasswordNotMatch"
+        case .newPasswordNotMatch:
+            return "newPasswordNotMatch"
         }
         
     }
@@ -157,9 +156,9 @@ class APIService {
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
     
-    static func putComment(token: String, comment: String, postId: Int, completion: @escaping (CommentDetail?, APIError?) -> Void) {
+    static func putComment(token: String, comment: String, postId: Int, commentId: Int, completion: @escaping (CommentDetail?, APIError?) -> Void) {
         
-        var request = URLRequest(url: Endpoint.putComments(id: postId).url)
+        var request = URLRequest(url: Endpoint.putComments(id: commentId).url)
         request.httpMethod = Method.PUT.rawValue
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -168,9 +167,9 @@ class APIService {
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
     
-    static func deleteComment(token: String, postId: Int, completion: @escaping (CommentDetail?, APIError?) -> Void) {
+    static func deleteComment(token: String, commentId: Int, completion: @escaping (CommentDetail?, APIError?) -> Void) {
         
-        var request = URLRequest(url: Endpoint.deleteComments(id: postId).url)
+        var request = URLRequest(url: Endpoint.deleteComments(id: commentId).url)
         request.httpMethod = Method.DELETE.rawValue
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
@@ -181,12 +180,13 @@ class APIService {
     
     
     
-    static func changePassword(currentPassword: String, newPassword: String, confirmNewPassword: String, completion: @escaping (User?, APIError?) -> Void) {
+    static func changePassword(password: String, newPassword: String, confirmNewPassword: String, completion: @escaping (User?, APIError?) -> Void) {
         
         var request = URLRequest(url: Endpoint.changePassword.url)
         request.httpMethod = Method.POST.rawValue
-        request.httpBody = "currentPassword=\(currentPassword)&newPassword=\(confirmNewPassword)&confirmNewPassword=\(confirmNewPassword)".data(using: .utf8, allowLossyConversion: false)
+        request.httpBody = "currentPassword=\(password)&newPassword=\(newPassword)&confirmNewPassword=\(confirmNewPassword)".data(using: .utf8, allowLossyConversion: false)
         
+        dump(request)
         URLSession.request(session: .shared, endpoint: request, completion: completion)
     }
 }

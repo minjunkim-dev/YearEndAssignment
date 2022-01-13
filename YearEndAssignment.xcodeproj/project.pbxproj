@@ -28,6 +28,7 @@
 		B94D6F8E277EC84B0071CF45 /* UITextField+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8D277EC84B0071CF45 /* UITextField+Custom.swift */; };
 		B94D6F90277ECB110071CF45 /* UIButton+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D6F8F277ECB110071CF45 /* UIButton+Custom.swift */; };
 		B94EDB17278AE92200158AB2 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = B94EDB16278AE92200158AB2 /* Toast */; };
+		B98BE23E278EA332001168F9 /* ToastManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98BE23D278EA332001168F9 /* ToastManager+Extension.swift */; };
 		B98FE467278440070031F9CB /* PostDetailCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98FE466278440070031F9CB /* PostDetailCommentTableViewCell.swift */; };
 		B99442B9277EF65A00E15847 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99442B8277EF65A00E15847 /* ChangePasswordViewController.swift */; };
 		B99442BB277EF66500E15847 /* ChagnePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99442BA277EF66500E15847 /* ChagnePasswordView.swift */; };
@@ -74,6 +75,7 @@
 		B94D6F8B277EA5900071CF45 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B94D6F8D277EC84B0071CF45 /* UITextField+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Custom.swift"; sourceTree = "<group>"; };
 		B94D6F8F277ECB110071CF45 /* UIButton+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Custom.swift"; sourceTree = "<group>"; };
+		B98BE23D278EA332001168F9 /* ToastManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToastManager+Extension.swift"; sourceTree = "<group>"; };
 		B98FE466278440070031F9CB /* PostDetailCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCommentTableViewCell.swift; sourceTree = "<group>"; };
 		B99442B8277EF65A00E15847 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		B99442BA277EF66500E15847 /* ChagnePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChagnePasswordView.swift; sourceTree = "<group>"; };
@@ -180,11 +182,12 @@
 		B94EDB10278AA82400158AB2 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B91C1EA3278D7BF6006CF522 /* DateFormatter+Extension.swift */,
+				B98BE23D278EA332001168F9 /* ToastManager+Extension.swift */,
 				B99A571827817EB000256C7B /* UITableViewCell+Extension.swift */,
 				B9F5A9F92782A51100CEF710 /* UIView+Extension.swift */,
 				B99A570F2781762600256C7B /* UIViewController+Extension.swift */,
 				B99A570D27815FC900256C7B /* UIWindow+Extension.swift */,
-				B91C1EA3278D7BF6006CF522 /* DateFormatter+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				B99A571527817D3800256C7B /* Comment.swift in Sources */,
 				B94D6F5E277E94C40071CF45 /* SceneDelegate.swift in Sources */,
 				B99A571B27817EF100256C7B /* PostContentTableViewCell.swift in Sources */,
+				B98BE23E278EA332001168F9 /* ToastManager+Extension.swift in Sources */,
 				B91C1EA4278D7BF6006CF522 /* DateFormatter+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
